@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package analytics;
+option go_package = ".;analytics_pb";
+
+message PingRequest {
+    string ping = 1;
+}
+
+message PingResponse {
+    string pong = 2;
+}
+
+message PeriodicSalesAmountRequest {
+    string channelName = 1;
+    string storeId = 2;
+    string interval = 3;
+    int64 from = 4;
+    int64 to = 5;
+}
+
+message SalesData {
+    double timestamp = 1;
+    double billCount = 2;
+    double totalAmount = 3;
+}
+
+message PeriodicSalesAmountResponse {
+    bool success = 1;
+    double total = 2;
+    repeated SalesData salesData = 3;
+}
+
+message SoldItemsData {
+    string key = 1;
+    double count = 2;
+}
+
+message TopSoldItemsRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+}
+
+message TopSoldItemsResponse {
+    bool success = 1;
+    repeated SoldItemsData soldItemsData = 2;
+}
+
+message LeastSoldItemsRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+}
+
+message LeastSoldItemsResponse {
+    bool success = 1;
+    repeated SoldItemsData soldItemsData = 2;
+}
+
+message TotalSalesAmountRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+}
+
+message TotalSalesAmountResponse {
+    bool success = 1;
+    double amount = 2;
+}
+
+service Analytics {
+    rpc Ping(PingRequest) returns (PingResponse) {};
+    rpc PeriodicSalesAmount(PeriodicSalesAmountRequest) returns (PeriodicSalesAmountResponse) {};
+    rpc TopSoldItems(TopSoldItemsRequest) returns (TopSoldItemsResponse) {};
+    rpc LeastSoldItems(LeastSoldItemsRequest) returns (LeastSoldItemsResponse) {};
+    rpc TotalSalesAmount(TotalSalesAmountRequest) returns (TotalSalesAmountResponse) {};
+}
