@@ -22,6 +22,15 @@ type AnalyticsPeriodicSalesAmount = {
   readonly responseType: typeof analytics_pb.PeriodicSalesAmountResponse;
 };
 
+type AnalyticsPeriodicStoreSalesAmount = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.PeriodicStoreSalesAmountRequest;
+  readonly responseType: typeof analytics_pb.PeriodicStoreSalesAmountResponse;
+};
+
 type AnalyticsTopSoldItems = {
   readonly methodName: string;
   readonly service: typeof Analytics;
@@ -40,6 +49,60 @@ type AnalyticsLeastSoldItems = {
   readonly responseType: typeof analytics_pb.LeastSoldItemsResponse;
 };
 
+type AnalyticsTopRevenueItems = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.TopRevenueItemsRequest;
+  readonly responseType: typeof analytics_pb.TopRevenueItemsResponse;
+};
+
+type AnalyticsLeastRevenueItems = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.LeastRevenueItemsRequest;
+  readonly responseType: typeof analytics_pb.LeastRevenueItemsResponse;
+};
+
+type AnalyticsStoreRevenueData = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.StoreRevenueDataRequest;
+  readonly responseType: typeof analytics_pb.StoreRevenueDataResponse;
+};
+
+type AnalyticsStoreSalesData = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.StoreSalesDataRequest;
+  readonly responseType: typeof analytics_pb.StoreSalesDataResponse;
+};
+
+type AnalyticsAverageSalesAmount = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.AverageSalesAmountRequest;
+  readonly responseType: typeof analytics_pb.AverageSalesAmountResponse;
+};
+
+type AnalyticsAverageSoldQuantity = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.AverageSoldQuantityRequest;
+  readonly responseType: typeof analytics_pb.AverageSoldQuantityResponse;
+};
+
 type AnalyticsTotalSalesAmount = {
   readonly methodName: string;
   readonly service: typeof Analytics;
@@ -53,8 +116,15 @@ export class Analytics {
   static readonly serviceName: string;
   static readonly Ping: AnalyticsPing;
   static readonly PeriodicSalesAmount: AnalyticsPeriodicSalesAmount;
+  static readonly PeriodicStoreSalesAmount: AnalyticsPeriodicStoreSalesAmount;
   static readonly TopSoldItems: AnalyticsTopSoldItems;
   static readonly LeastSoldItems: AnalyticsLeastSoldItems;
+  static readonly TopRevenueItems: AnalyticsTopRevenueItems;
+  static readonly LeastRevenueItems: AnalyticsLeastRevenueItems;
+  static readonly StoreRevenueData: AnalyticsStoreRevenueData;
+  static readonly StoreSalesData: AnalyticsStoreSalesData;
+  static readonly AverageSalesAmount: AnalyticsAverageSalesAmount;
+  static readonly AverageSoldQuantity: AnalyticsAverageSoldQuantity;
   static readonly TotalSalesAmount: AnalyticsTotalSalesAmount;
 }
 
@@ -108,6 +178,15 @@ export class AnalyticsClient {
     requestMessage: analytics_pb.PeriodicSalesAmountRequest,
     callback: (error: ServiceError|null, responseMessage: analytics_pb.PeriodicSalesAmountResponse|null) => void
   ): UnaryResponse;
+  periodicStoreSalesAmount(
+    requestMessage: analytics_pb.PeriodicStoreSalesAmountRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.PeriodicStoreSalesAmountResponse|null) => void
+  ): UnaryResponse;
+  periodicStoreSalesAmount(
+    requestMessage: analytics_pb.PeriodicStoreSalesAmountRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.PeriodicStoreSalesAmountResponse|null) => void
+  ): UnaryResponse;
   topSoldItems(
     requestMessage: analytics_pb.TopSoldItemsRequest,
     metadata: grpc.Metadata,
@@ -125,6 +204,60 @@ export class AnalyticsClient {
   leastSoldItems(
     requestMessage: analytics_pb.LeastSoldItemsRequest,
     callback: (error: ServiceError|null, responseMessage: analytics_pb.LeastSoldItemsResponse|null) => void
+  ): UnaryResponse;
+  topRevenueItems(
+    requestMessage: analytics_pb.TopRevenueItemsRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.TopRevenueItemsResponse|null) => void
+  ): UnaryResponse;
+  topRevenueItems(
+    requestMessage: analytics_pb.TopRevenueItemsRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.TopRevenueItemsResponse|null) => void
+  ): UnaryResponse;
+  leastRevenueItems(
+    requestMessage: analytics_pb.LeastRevenueItemsRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.LeastRevenueItemsResponse|null) => void
+  ): UnaryResponse;
+  leastRevenueItems(
+    requestMessage: analytics_pb.LeastRevenueItemsRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.LeastRevenueItemsResponse|null) => void
+  ): UnaryResponse;
+  storeRevenueData(
+    requestMessage: analytics_pb.StoreRevenueDataRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.StoreRevenueDataResponse|null) => void
+  ): UnaryResponse;
+  storeRevenueData(
+    requestMessage: analytics_pb.StoreRevenueDataRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.StoreRevenueDataResponse|null) => void
+  ): UnaryResponse;
+  storeSalesData(
+    requestMessage: analytics_pb.StoreSalesDataRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.StoreSalesDataResponse|null) => void
+  ): UnaryResponse;
+  storeSalesData(
+    requestMessage: analytics_pb.StoreSalesDataRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.StoreSalesDataResponse|null) => void
+  ): UnaryResponse;
+  averageSalesAmount(
+    requestMessage: analytics_pb.AverageSalesAmountRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AverageSalesAmountResponse|null) => void
+  ): UnaryResponse;
+  averageSalesAmount(
+    requestMessage: analytics_pb.AverageSalesAmountRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AverageSalesAmountResponse|null) => void
+  ): UnaryResponse;
+  averageSoldQuantity(
+    requestMessage: analytics_pb.AverageSoldQuantityRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AverageSoldQuantityResponse|null) => void
+  ): UnaryResponse;
+  averageSoldQuantity(
+    requestMessage: analytics_pb.AverageSoldQuantityRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AverageSoldQuantityResponse|null) => void
   ): UnaryResponse;
   totalSalesAmount(
     requestMessage: analytics_pb.TotalSalesAmountRequest,

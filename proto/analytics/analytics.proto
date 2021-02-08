@@ -11,6 +11,12 @@ message PingResponse {
     string pong = 2;
 }
 
+message SalesData {
+    double timestamp = 1;
+    double billCount = 2;
+    double totalAmount = 3;
+}
+
 message PeriodicSalesAmountRequest {
     string channelName = 1;
     string storeId = 2;
@@ -19,16 +25,30 @@ message PeriodicSalesAmountRequest {
     int64 to = 5;
 }
 
-message SalesData {
-    double timestamp = 1;
-    double billCount = 2;
-    double totalAmount = 3;
-}
-
 message PeriodicSalesAmountResponse {
     bool success = 1;
     double total = 2;
     repeated SalesData salesData = 3;
+}
+
+message StoreSalesData {
+    string storeId = 1;
+    double billCount = 2;
+    double total = 3;
+    repeated SalesData salesData = 4;
+}
+
+message PeriodicStoreSalesAmountRequest {
+    string channelName = 1;
+    int64 storeCount = 2;
+    string interval = 3;
+    int64 from = 4;
+    int64 to = 5;
+}
+
+message PeriodicStoreSalesAmountResponse {
+    bool success = 1;
+    repeated StoreSalesData storeSalesData = 2;
 }
 
 message SoldItemsData {
@@ -62,6 +82,101 @@ message LeastSoldItemsResponse {
     repeated SoldItemsData soldItemsData = 2;
 }
 
+message RevenueItemsData {
+    string key = 1;
+    double billCount = 2;
+    double totalSalesPrice = 3;
+}
+
+message TopRevenueItemsRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+}
+
+message TopRevenueItemsResponse {
+    bool success = 1;
+    repeated RevenueItemsData revenueItemsData = 2;
+}
+
+message LeastRevenueItemsRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+}
+
+message LeastRevenueItemsResponse {
+    bool success = 1;
+    repeated RevenueItemsData revenueItemsData = 2;
+}
+
+message StoreRevenueData {
+    string key = 1;
+    double billCount = 2;
+    double totalRevenue = 3;
+}
+
+message StoreRevenueDataRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+    bool ascending = 6;
+}
+
+message StoreRevenueDataResponse {
+    bool success = 1;
+    repeated StoreRevenueData storeRevenueData = 2;
+}
+
+message StoreBillData {
+    string key = 1;
+    double billCount = 2;
+}
+
+message StoreSalesDataRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+    int32 count = 5;
+    bool ascending = 6;
+}
+
+message StoreSalesDataResponse {
+    bool success = 1;
+    repeated StoreBillData storeBillData = 2;
+}
+
+message AverageSalesAmountRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+}
+
+message AverageSalesAmountResponse {
+    bool success = 1;
+    double amount = 2;
+}
+
+message AverageSoldQuantityRequest {
+    string channelName = 1;
+    string storeId = 2;
+    int64 from = 3;
+    int64 to = 4;
+}
+
+message AverageSoldQuantityResponse {
+    bool success = 1;
+    double quantity = 2;
+}
+
 message TotalSalesAmountRequest {
     string channelName = 1;
     string storeId = 2;
@@ -77,7 +192,14 @@ message TotalSalesAmountResponse {
 service Analytics {
     rpc Ping(PingRequest) returns (PingResponse) {};
     rpc PeriodicSalesAmount(PeriodicSalesAmountRequest) returns (PeriodicSalesAmountResponse) {};
+    rpc PeriodicStoreSalesAmount(PeriodicStoreSalesAmountRequest) returns (PeriodicStoreSalesAmountResponse) {};
     rpc TopSoldItems(TopSoldItemsRequest) returns (TopSoldItemsResponse) {};
     rpc LeastSoldItems(LeastSoldItemsRequest) returns (LeastSoldItemsResponse) {};
+    rpc TopRevenueItems(TopRevenueItemsRequest) returns (TopRevenueItemsResponse) {};
+    rpc LeastRevenueItems(LeastRevenueItemsRequest) returns (LeastRevenueItemsResponse) {};
+    rpc StoreRevenueData(StoreRevenueDataRequest) returns (StoreRevenueDataResponse) {};
+    rpc StoreSalesData(StoreSalesDataRequest) returns (StoreSalesDataResponse) {};
+    rpc AverageSalesAmount(AverageSalesAmountRequest) returns (AverageSalesAmountResponse) {};
+    rpc AverageSoldQuantity(AverageSoldQuantityRequest) returns (AverageSoldQuantityResponse) {};
     rpc TotalSalesAmount(TotalSalesAmountRequest) returns (TotalSalesAmountResponse) {};
 }

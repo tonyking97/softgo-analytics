@@ -28,6 +28,15 @@ Analytics.PeriodicSalesAmount = {
   responseType: analytics_pb.PeriodicSalesAmountResponse
 };
 
+Analytics.PeriodicStoreSalesAmount = {
+  methodName: "PeriodicStoreSalesAmount",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.PeriodicStoreSalesAmountRequest,
+  responseType: analytics_pb.PeriodicStoreSalesAmountResponse
+};
+
 Analytics.TopSoldItems = {
   methodName: "TopSoldItems",
   service: Analytics,
@@ -44,6 +53,60 @@ Analytics.LeastSoldItems = {
   responseStream: false,
   requestType: analytics_pb.LeastSoldItemsRequest,
   responseType: analytics_pb.LeastSoldItemsResponse
+};
+
+Analytics.TopRevenueItems = {
+  methodName: "TopRevenueItems",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.TopRevenueItemsRequest,
+  responseType: analytics_pb.TopRevenueItemsResponse
+};
+
+Analytics.LeastRevenueItems = {
+  methodName: "LeastRevenueItems",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.LeastRevenueItemsRequest,
+  responseType: analytics_pb.LeastRevenueItemsResponse
+};
+
+Analytics.StoreRevenueData = {
+  methodName: "StoreRevenueData",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.StoreRevenueDataRequest,
+  responseType: analytics_pb.StoreRevenueDataResponse
+};
+
+Analytics.StoreSalesData = {
+  methodName: "StoreSalesData",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.StoreSalesDataRequest,
+  responseType: analytics_pb.StoreSalesDataResponse
+};
+
+Analytics.AverageSalesAmount = {
+  methodName: "AverageSalesAmount",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.AverageSalesAmountRequest,
+  responseType: analytics_pb.AverageSalesAmountResponse
+};
+
+Analytics.AverageSoldQuantity = {
+  methodName: "AverageSoldQuantity",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.AverageSoldQuantityRequest,
+  responseType: analytics_pb.AverageSoldQuantityResponse
 };
 
 Analytics.TotalSalesAmount = {
@@ -124,6 +187,37 @@ AnalyticsClient.prototype.periodicSalesAmount = function periodicSalesAmount(req
   };
 };
 
+AnalyticsClient.prototype.periodicStoreSalesAmount = function periodicStoreSalesAmount(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.PeriodicStoreSalesAmount, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 AnalyticsClient.prototype.topSoldItems = function topSoldItems(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -160,6 +254,192 @@ AnalyticsClient.prototype.leastSoldItems = function leastSoldItems(requestMessag
     callback = arguments[1];
   }
   var client = grpc.unary(Analytics.LeastSoldItems, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.topRevenueItems = function topRevenueItems(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.TopRevenueItems, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.leastRevenueItems = function leastRevenueItems(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.LeastRevenueItems, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.storeRevenueData = function storeRevenueData(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.StoreRevenueData, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.storeSalesData = function storeSalesData(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.StoreSalesData, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.averageSalesAmount = function averageSalesAmount(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.AverageSalesAmount, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.averageSoldQuantity = function averageSoldQuantity(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.AverageSoldQuantity, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
