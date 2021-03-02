@@ -189,8 +189,28 @@ message TotalSalesAmountResponse {
     double amount = 2;
 }
 
+message AddStoreRequest {
+    string channelName = 1;
+}
+
+message AddStoreResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message DeleteStoreRequest {
+    string channelName = 1;
+}
+
+message DeleteStoreResponse {
+    bool success = 1;
+    string message = 2;
+}
+
 service Analytics {
     rpc Ping(PingRequest) returns (PingResponse) {};
+    rpc AddStore(AddStoreRequest) returns (AddStoreResponse) {};
+    rpc DeleteStore(DeleteStoreRequest) returns (DeleteStoreResponse) {};
     rpc PeriodicSalesAmount(PeriodicSalesAmountRequest) returns (PeriodicSalesAmountResponse) {};
     rpc PeriodicStoreSalesAmount(PeriodicStoreSalesAmountRequest) returns (PeriodicStoreSalesAmountResponse) {};
     rpc TopSoldItems(TopSoldItemsRequest) returns (TopSoldItemsResponse) {};

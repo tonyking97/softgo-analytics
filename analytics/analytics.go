@@ -4,12 +4,127 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"softgo-analytics/es"
 	"strings"
 )
 
 // TODO Handle error for invalid input params
+
+func AddStore(channelName string) error {
+	esClient := es.GetEsClient()
+	indexName := channelName + "_bill"
+
+	var r map[string]interface{}
+	var buf bytes.Buffer
+	mappings := map[string]interface{}{
+		"mappings" : map[string]interface{}{
+			"properties" : map[string]interface{}{
+				"timestamp" : map[string]interface{}{
+					"type" : "date",
+					"format": "epoch_second",
+				},
+				"dishes" : map[string]interface{}{
+					"type" : "nested",
+					"properties" : map[string]interface{}{
+						"name" : map[string]interface{}{
+							"type": "text",
+							"fielddata": true,
+						},
+						"price" : map[string]interface{}{
+							"type": "long",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	if err := json.NewEncoder(&buf).Encode(mappings); err != nil {
+		log.Fatalf("Error encoding query: %s", err)
+	}
+
+	res, err := esClient.Indices.Create(
+		indexName,
+		esClient.Indices.Create.WithContext(context.Background()),
+		esClient.Indices.Create.WithBody(&buf),
+	)
+
+	if err != nil {
+		log.Println("Error getting response: %s", err)
+		return errors.New("Internal Server Error")
+	}
+
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var resError map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&resError); err != nil {
+			log.Println("Error parsing the response body: %s", err)
+			return errors.New("Error parsing the response")
+		} else {
+			// Print the response status and resError information.
+			log.Println("[",res.Status(),"]",
+				"type:",
+				resError["error"].(map[string]interface{})["type"],
+				"reason:",
+				resError["error"].(map[string]interface{})["reason"],
+			)
+			if resError["error"].(map[string]interface{})["type"] == "resource_already_exists_exception" {
+				return errors.New("Index Already Exists.")
+			} else {
+				return errors.New("Failed to create index.")
+			}
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+
+	log.Println(r)
+	return nil
+}
+
+func DeleteStore(channelName string) error {
+	esClient := es.GetEsClient()
+	indexName := []string{channelName + "_bill"}
+
+	var r map[string]interface{}
+
+	res, err := esClient.Indices.Delete(
+		indexName,
+		esClient.Indices.Delete.WithContext(context.Background()),
+	)
+
+	if err != nil {
+		log.Fatalf("Error getting response: %s", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var resError map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&resError); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and resError information.
+			log.Fatalf("[%s] %s: %s",
+				res.Status(),
+				resError["resError"].(map[string]interface{})["type"],
+				resError["resError"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+
+	log.Println(r)
+	return nil
+}
 
 func GetBills() {
 	esClient := es.GetEsClient()

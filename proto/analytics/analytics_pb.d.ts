@@ -885,3 +885,91 @@ export namespace TotalSalesAmountResponse {
   }
 }
 
+export class AddStoreRequest extends jspb.Message {
+  getChannelname(): string;
+  setChannelname(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AddStoreRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: AddStoreRequest): AddStoreRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: AddStoreRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AddStoreRequest;
+  static deserializeBinaryFromReader(message: AddStoreRequest, reader: jspb.BinaryReader): AddStoreRequest;
+}
+
+export namespace AddStoreRequest {
+  export type AsObject = {
+    channelname: string,
+  }
+}
+
+export class AddStoreResponse extends jspb.Message {
+  getSuccess(): boolean;
+  setSuccess(value: boolean): void;
+
+  getMessage(): string;
+  setMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AddStoreResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: AddStoreResponse): AddStoreResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: AddStoreResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AddStoreResponse;
+  static deserializeBinaryFromReader(message: AddStoreResponse, reader: jspb.BinaryReader): AddStoreResponse;
+}
+
+export namespace AddStoreResponse {
+  export type AsObject = {
+    success: boolean,
+    message: string,
+  }
+}
+
+export class DeleteStoreRequest extends jspb.Message {
+  getChannelname(): string;
+  setChannelname(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DeleteStoreRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DeleteStoreRequest): DeleteStoreRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DeleteStoreRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DeleteStoreRequest;
+  static deserializeBinaryFromReader(message: DeleteStoreRequest, reader: jspb.BinaryReader): DeleteStoreRequest;
+}
+
+export namespace DeleteStoreRequest {
+  export type AsObject = {
+    channelname: string,
+  }
+}
+
+export class DeleteStoreResponse extends jspb.Message {
+  getSuccess(): boolean;
+  setSuccess(value: boolean): void;
+
+  getMessage(): string;
+  setMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DeleteStoreResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DeleteStoreResponse): DeleteStoreResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DeleteStoreResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DeleteStoreResponse;
+  static deserializeBinaryFromReader(message: DeleteStoreResponse, reader: jspb.BinaryReader): DeleteStoreResponse;
+}
+
+export namespace DeleteStoreResponse {
+  export type AsObject = {
+    success: boolean,
+    message: string,
+  }
+}
+

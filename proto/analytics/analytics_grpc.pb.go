@@ -18,6 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnalyticsClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	AddStore(ctx context.Context, in *AddStoreRequest, opts ...grpc.CallOption) (*AddStoreResponse, error)
+	DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*DeleteStoreResponse, error)
 	PeriodicSalesAmount(ctx context.Context, in *PeriodicSalesAmountRequest, opts ...grpc.CallOption) (*PeriodicSalesAmountResponse, error)
 	PeriodicStoreSalesAmount(ctx context.Context, in *PeriodicStoreSalesAmountRequest, opts ...grpc.CallOption) (*PeriodicStoreSalesAmountResponse, error)
 	TopSoldItems(ctx context.Context, in *TopSoldItemsRequest, opts ...grpc.CallOption) (*TopSoldItemsResponse, error)
@@ -42,6 +44,24 @@ func NewAnalyticsClient(cc grpc.ClientConnInterface) AnalyticsClient {
 func (c *analyticsClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
 	out := new(PingResponse)
 	err := c.cc.Invoke(ctx, "/analytics.Analytics/Ping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *analyticsClient) AddStore(ctx context.Context, in *AddStoreRequest, opts ...grpc.CallOption) (*AddStoreResponse, error) {
+	out := new(AddStoreResponse)
+	err := c.cc.Invoke(ctx, "/analytics.Analytics/AddStore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *analyticsClient) DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*DeleteStoreResponse, error) {
+	out := new(DeleteStoreResponse)
+	err := c.cc.Invoke(ctx, "/analytics.Analytics/DeleteStore", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -152,6 +172,8 @@ func (c *analyticsClient) TotalSalesAmount(ctx context.Context, in *TotalSalesAm
 // for forward compatibility
 type AnalyticsServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	AddStore(context.Context, *AddStoreRequest) (*AddStoreResponse, error)
+	DeleteStore(context.Context, *DeleteStoreRequest) (*DeleteStoreResponse, error)
 	PeriodicSalesAmount(context.Context, *PeriodicSalesAmountRequest) (*PeriodicSalesAmountResponse, error)
 	PeriodicStoreSalesAmount(context.Context, *PeriodicStoreSalesAmountRequest) (*PeriodicStoreSalesAmountResponse, error)
 	TopSoldItems(context.Context, *TopSoldItemsRequest) (*TopSoldItemsResponse, error)
@@ -172,6 +194,12 @@ type UnimplementedAnalyticsServer struct {
 
 func (UnimplementedAnalyticsServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (UnimplementedAnalyticsServer) AddStore(context.Context, *AddStoreRequest) (*AddStoreResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddStore not implemented")
+}
+func (UnimplementedAnalyticsServer) DeleteStore(context.Context, *DeleteStoreRequest) (*DeleteStoreResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteStore not implemented")
 }
 func (UnimplementedAnalyticsServer) PeriodicSalesAmount(context.Context, *PeriodicSalesAmountRequest) (*PeriodicSalesAmountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PeriodicSalesAmount not implemented")
@@ -233,6 +261,42 @@ func _Analytics_Ping_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AnalyticsServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Analytics_AddStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddStoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnalyticsServer).AddStore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/analytics.Analytics/AddStore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnalyticsServer).AddStore(ctx, req.(*AddStoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Analytics_DeleteStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnalyticsServer).DeleteStore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/analytics.Analytics/DeleteStore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnalyticsServer).DeleteStore(ctx, req.(*DeleteStoreRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -442,6 +506,14 @@ var _Analytics_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Ping",
 			Handler:    _Analytics_Ping_Handler,
+		},
+		{
+			MethodName: "AddStore",
+			Handler:    _Analytics_AddStore_Handler,
+		},
+		{
+			MethodName: "DeleteStore",
+			Handler:    _Analytics_DeleteStore_Handler,
 		},
 		{
 			MethodName: "PeriodicSalesAmount",

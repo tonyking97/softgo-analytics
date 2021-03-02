@@ -22,6 +22,38 @@ func (*AnalyticsServer) Ping(ctx context.Context, req *analyticsPb.PingRequest) 
 	return res, nil
 }
 
+func (*AnalyticsServer) AddStore(ctx context.Context, req *analyticsPb.AddStoreRequest) (*analyticsPb.AddStoreResponse, error) {
+	log.Println("Incoming Add Store Request.")
+
+	err := analytics.AddStore(req.ChannelName)
+	if err != nil {
+		return &analyticsPb.AddStoreResponse{
+			Success: false,
+			Message: "failed to create store",
+		}, nil
+	} else {
+		return &analyticsPb.AddStoreResponse{
+			Success: true,
+		}, nil
+	}
+}
+
+func (*AnalyticsServer) DeleteStore(ctx context.Context, req *analyticsPb.DeleteStoreRequest) (*analyticsPb.DeleteStoreResponse, error) {
+	log.Println("Incoming Delete Store Request.")
+
+	err := analytics.DeleteStore(req.ChannelName)
+	if err != nil {
+		return &analyticsPb.DeleteStoreResponse{
+			Success: false,
+			Message: "failed to delete store",
+		}, nil
+	} else {
+		return &analyticsPb.DeleteStoreResponse{
+			Success: true,
+		}, nil
+	}
+}
+
 func (*AnalyticsServer) PeriodicSalesAmount(ctx context.Context, req *analyticsPb.PeriodicSalesAmountRequest) (*analyticsPb.PeriodicSalesAmountResponse, error) {
 	log.Println("Incoming Periodic Sales Amount Request.")
 
@@ -45,7 +77,7 @@ func (*AnalyticsServer) PeriodicSalesAmount(ctx context.Context, req *analyticsP
 }
 
 func (*AnalyticsServer) PeriodicStoreSalesAmount(ctx context.Context, req *analyticsPb.PeriodicStoreSalesAmountRequest) (*analyticsPb.PeriodicStoreSalesAmountResponse, error) {
-	log.Println("Incoming Periodic Sales Amount Request.")
+	log.Println("Incoming Periodic Store Sales Amount Request.")
 
 	data := analytics.GetPeriodicStoreSalesAmount(req.ChannelName, req.Interval, req.StoreCount, req.From, req.To)
 

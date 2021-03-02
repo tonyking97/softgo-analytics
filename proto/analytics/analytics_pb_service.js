@@ -19,6 +19,24 @@ Analytics.Ping = {
   responseType: analytics_pb.PingResponse
 };
 
+Analytics.AddStore = {
+  methodName: "AddStore",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.AddStoreRequest,
+  responseType: analytics_pb.AddStoreResponse
+};
+
+Analytics.DeleteStore = {
+  methodName: "DeleteStore",
+  service: Analytics,
+  requestStream: false,
+  responseStream: false,
+  requestType: analytics_pb.DeleteStoreRequest,
+  responseType: analytics_pb.DeleteStoreResponse
+};
+
 Analytics.PeriodicSalesAmount = {
   methodName: "PeriodicSalesAmount",
   service: Analytics,
@@ -130,6 +148,68 @@ AnalyticsClient.prototype.ping = function ping(requestMessage, metadata, callbac
     callback = arguments[1];
   }
   var client = grpc.unary(Analytics.Ping, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.addStore = function addStore(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.AddStore, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+AnalyticsClient.prototype.deleteStore = function deleteStore(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Analytics.DeleteStore, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

@@ -13,6 +13,24 @@ type AnalyticsPing = {
   readonly responseType: typeof analytics_pb.PingResponse;
 };
 
+type AnalyticsAddStore = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.AddStoreRequest;
+  readonly responseType: typeof analytics_pb.AddStoreResponse;
+};
+
+type AnalyticsDeleteStore = {
+  readonly methodName: string;
+  readonly service: typeof Analytics;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof analytics_pb.DeleteStoreRequest;
+  readonly responseType: typeof analytics_pb.DeleteStoreResponse;
+};
+
 type AnalyticsPeriodicSalesAmount = {
   readonly methodName: string;
   readonly service: typeof Analytics;
@@ -115,6 +133,8 @@ type AnalyticsTotalSalesAmount = {
 export class Analytics {
   static readonly serviceName: string;
   static readonly Ping: AnalyticsPing;
+  static readonly AddStore: AnalyticsAddStore;
+  static readonly DeleteStore: AnalyticsDeleteStore;
   static readonly PeriodicSalesAmount: AnalyticsPeriodicSalesAmount;
   static readonly PeriodicStoreSalesAmount: AnalyticsPeriodicStoreSalesAmount;
   static readonly TopSoldItems: AnalyticsTopSoldItems;
@@ -168,6 +188,24 @@ export class AnalyticsClient {
   ping(
     requestMessage: analytics_pb.PingRequest,
     callback: (error: ServiceError|null, responseMessage: analytics_pb.PingResponse|null) => void
+  ): UnaryResponse;
+  addStore(
+    requestMessage: analytics_pb.AddStoreRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AddStoreResponse|null) => void
+  ): UnaryResponse;
+  addStore(
+    requestMessage: analytics_pb.AddStoreRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.AddStoreResponse|null) => void
+  ): UnaryResponse;
+  deleteStore(
+    requestMessage: analytics_pb.DeleteStoreRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.DeleteStoreResponse|null) => void
+  ): UnaryResponse;
+  deleteStore(
+    requestMessage: analytics_pb.DeleteStoreRequest,
+    callback: (error: ServiceError|null, responseMessage: analytics_pb.DeleteStoreResponse|null) => void
   ): UnaryResponse;
   periodicSalesAmount(
     requestMessage: analytics_pb.PeriodicSalesAmountRequest,
