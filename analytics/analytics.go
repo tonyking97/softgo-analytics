@@ -8,6 +8,7 @@ import (
 	"log"
 	"softgo-analytics/es"
 	"strings"
+	"time"
 )
 
 // TODO Handle error for invalid input params
@@ -16,7 +17,6 @@ func AddStore(channelName string) error {
 	esClient := es.GetEsClient()
 	indexName := channelName + "_bill"
 
-	var r map[string]interface{}
 	var buf bytes.Buffer
 	mappings := map[string]interface{}{
 		"mappings" : map[string]interface{}{
@@ -79,11 +79,6 @@ func AddStore(channelName string) error {
 		}
 	}
 
-	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
-	}
-
-	log.Println(r)
 	return nil
 }
 
@@ -123,6 +118,19 @@ func DeleteStore(channelName string) error {
 	}
 
 	log.Println(r)
+	return nil
+}
+
+func AddBill(channelName string, billData []byte) error {
+	t := time.Now()
+	esClient := es.GetEsClient()
+	indexName := channelName + "_bill"
+	_, err := esClient.Index(indexName, bytes.NewReader(billData))
+	if err != nil {
+		log.Printf("Error getting response: %s\n", err)
+		return errors.New("Internal Server Error")
+	}
+	log.Println("Added Bill Data to Index. Time Taken ->", time.Since(t))
 	return nil
 }
 

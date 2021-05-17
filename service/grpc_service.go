@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	analyticsPb "softgo-analytics/proto/analytics"
+	analyticsClientPb "softgo-analytics/proto/analytics_client"
 )
 
 func GrpcInit() {
@@ -20,6 +21,7 @@ func startGRPCServer() {
 
 	s := grpc.NewServer()
 	analyticsPb.RegisterAnalyticsServer(s, &AnalyticsServer{})
+	analyticsClientPb.RegisterAnalyticsClientServer(s, &AnalyticsClient{})
 
 	reflection.Register(s)
 	log.Println("Starting gRPC Service...")

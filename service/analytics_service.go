@@ -11,7 +11,6 @@ type AnalyticsServer struct {
 	analyticsPb.UnimplementedAnalyticsServer
 }
 
-// Ping
 func (*AnalyticsServer) Ping(ctx context.Context, req *analyticsPb.PingRequest) (*analyticsPb.PingResponse, error) {
 	log.Println("Incoming Ping Request.")
 	log.Println("Ping -> ", req.Ping)
